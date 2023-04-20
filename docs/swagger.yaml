@@ -1,0 +1,632 @@
+basePath: /
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  helpers.JSONBadRequestResult:
+    properties:
+      code:
+        example: 400
+        type: integer
+      data: {}
+      message:
+        example: Wrong request
+        type: string
+    type: object
+  helpers.JSONInternalServerErrorResult:
+    properties:
+      code:
+        example: 500
+        type: integer
+      data: {}
+      message:
+        example: Internal server error
+        type: string
+    type: object
+  helpers.JSONNotFoundResult:
+    properties:
+      code:
+        example: 404
+        type: integer
+      data: {}
+      message:
+        example: Not found
+        type: string
+    type: object
+  helpers.JSONSuccessResult:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data: {}
+      message:
+        example: Success
+        type: string
+    type: object
+  helpers.JSONSuccessResultNoData:
+    properties:
+      code:
+        example: 200
+        type: integer
+      message:
+        example: Success
+        type: string
+    type: object
+  helpers.JSONUnauthorizedResult:
+    properties:
+      code:
+        example: 401
+        type: integer
+      data: {}
+      message:
+        example: Unauthorized
+        type: string
+    type: object
+  models.Login:
+    properties:
+      password:
+        example: Password123!
+        type: string
+      username:
+        example: johndoe
+        type: string
+    type: object
+  models.Role:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.RoleDTO:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.Truck:
+    properties:
+      chassisNumber:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      licensePlate:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      firstName:
+        example: John
+        type: string
+      id:
+        type: integer
+      lastName:
+        example: Doe
+        type: string
+      password:
+        example: Password123!
+        type: string
+      role:
+        example: 1
+        type: integer
+      updatedAt:
+        type: string
+      username:
+        example: johndoe
+        type: string
+    type: object
+  models.UserDTO:
+    properties:
+      firstName:
+        example: John
+        type: string
+      id:
+        type: integer
+      lastName:
+        example: Doe
+        type: string
+      role:
+        example: 1
+        type: integer
+      username:
+        example: johndoe
+        type: string
+    type: object
+host: localhost:8001
+info:
+  contact:
+    email: laerti98@gmail.com
+    name: Laert Kokona
+    url: http://github.com/laertkokona
+  description: This is a sample CRUD server.
+  title: Swagger Crud-Test API
+  version: "0.1"
+paths:
+  /roles:
+    get:
+      consumes:
+      - application/json
+      description: Get all roles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helpers.JSONSuccessResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.RoleDTO'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all roles
+      tags:
+      - Role
+    post:
+      consumes:
+      - application/json
+      description: Create role
+      parameters:
+      - description: Role object
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/models.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helpers.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.RoleDTO'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Create role
+      tags:
+      - Role
+  /roles/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete role
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helpers.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.RoleDTO'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete role
+      tags:
+      - Role
+    get:
+      consumes:
+      - application/json
+      description: Get role
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helpers.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.RoleDTO'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Get role
+      tags:
+      - Role
+    put:
+      consumes:
+      - application/json
+      description: Update role
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Role object
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/models.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helpers.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.RoleDTO'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Update role
+      tags:
+      - Role
+  /signIn:
+    post:
+      consumes:
+      - application/json
+      description: Sign in user
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helpers.JSONSuccessResultNoData'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      summary: Sign in user
+      tags:
+      - Auth
+  /signOut:
+    post:
+      consumes:
+      - application/json
+      description: Sign out user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helpers.JSONSuccessResultNoData'
+      summary: Sign out user
+      tags:
+      - Auth
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: get users
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: string
+      - description: Limit number
+        in: query
+        name: limit
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              allOf:
+              - $ref: '#/definitions/helpers.JSONSuccessResult'
+              - properties:
+                  data:
+                    items:
+                      $ref: '#/definitions/models.UserDTO'
+                    type: array
+                type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      security:
+      - ApiKeyAuth: []
+      summary: List all users
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Create new user
+      operationId: create-user
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helpers.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.UserDTO'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new user
+      tags:
+      - User
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helpers.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.UserDTO'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete user
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      description: Get a user by id
+      operationId: get-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helpers.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.UserDTO'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/helpers.JSONNotFoundResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a user by id
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: Update user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helpers.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.UserDTO'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helpers.JSONUnauthorizedResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.JSONInternalServerErrorResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Update user
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
